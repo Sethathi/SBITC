@@ -31,7 +31,7 @@
 (doseq [t (range 1 (+ T 1))]
 	(def N (Integer/parseInt (read-line)))
 	(def N (cond (< N 1) 1
-	             (> N 10000) 10000
+	             (> N 1000) 1000
 	             :else N))
   (def stocks '()) 
   (doseq [n (range 1 (+ N 1))]

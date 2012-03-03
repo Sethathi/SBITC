@@ -17,7 +17,18 @@
   (doseq [i (range 1 (+ n 1))]
     (when (prime? i)
       (def p (inc p))))
-  (println (str "Case #" t ": " p)))
+  (str "Case #" t ": " p "\n"))
 
-(doseq [t (range 1 (+ (Integer/parseInt (read-line)) 1))]
-  (prime-count t (Integer/parseInt (read-line))))
+
+(def output "")
+(def T (Integer/parseInt (read-line)))
+(def T (cond (< T 1) 1
+             (> T 20) 20
+             :else T))
+(doseq [t (range 1 (+ T 1))]
+	(def N (Integer/parseInt (read-line)))
+	(def N (cond (< N 1) 1
+	             (> N 10000) 10000
+	             :else N))
+  (def output (str output (prime-count t N))))
+(print output)
