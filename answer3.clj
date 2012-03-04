@@ -1,43 +1,47 @@
 (ns answer3)
-
-(defn get-max-map-value [the-map]
-  (def max-value 0)
-  (doseq [i the-map]
-    (when (< max-value (count (second i)))
-      (def max-value (count (second i)))))
-  max-value)
-
+     
 (defn savings-streak
-  {:doc "Prints test case number (t) followed by number purchases strickly less than any previous purchases"}
+  {:doc "Prints test case number (t) followed by start day to end day of highest average of days greater than M"}
   [t M savings]
+  (def max-index 0)
+  (def max-index-plus 0)
   (def max-value 0)
   (loop [l 0 s savings]
-    (println "avg of: " (take M s))
-    (when (not (empty? s))
+    (loop [i 0]
+	    (comment println "avg of:" (take (+ M i) s) "=" (float (/ (reduce + (take (+ M i) s)) (+ M i))))
+	    (when (<= max-value (float (/ (reduce + (take (+ M i) s)) (+ M i))))
+	      (def max-index l)
+	      (def max-index-plus i)
+	      (def max-value (float (/ (reduce + (take (+ M i) s)) (+ M i)))))
+	    (when (< (+ M i) (count s))
+	      (recur (inc i))))
+    (when (< M (count s))
       (recur (inc l) (rest s))))
-  (str "Case #" t ": " (get-max-map-value out-list) "\n"))
+  (str "Case #" t ": "
+       ( + max-index 1) " " (str (+ max-index (+ M max-index-plus)) "\n")))
 
 (def output "")
-(def T 1)
-(comment def T (Integer/parseInt (read-line)))
-(comment def T (cond (< T 1) 1
-             (> T 20) 20
+(def T (Integer/parseInt (read-line)))
+(def T (cond (< T 1) 1
+             (> T 10) 10
              :else T))
 
 (doseq [t (range 1 (+ T 1))]
-	(def N 10)
-	(def M 4)
-	(comment def N (Integer/parseInt (read-line)))
-	(comment def N (cond (< N 1) 1
+	(def MN (seq (.split #" " (read-line))))
+	(def M (Integer/parseInt (second MN)))
+	(def N (Integer/parseInt (first MN)))
+	(def N (cond (< N 1) 1
 	             (> N 1000) 1000
 	             :else N))
-  (def savings '(20 -50 10 11 10 2 10 9 11 1))
-  (comment def savings '()) 
-  (comment doseq [n (range 1 (+ N 1))]
+	(def M (cond (< M 1) 1
+	             (> M N) N
+	             :else M))
+  (def savings '())
+  (doseq [n (range 1 (+ N 1))]
 		(def s (Integer/parseInt (read-line)))
-		(def s (cond (< s 1) 1
+		(def s (cond (< s -10000) -10000
 		             (> s 10000) 10000
 		             :else s))
-    (def stocks (conj stocks s)))
-  (def output (str output (savings-streak t M savings))))
+    (def savings (conj savings s)))
+  (def output (str output (savings-streak t M (reverse savings)))))
 (println output)

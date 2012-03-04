@@ -1,4 +1,4 @@
-(ns answer1a)
+(ns answer1)
 
 (defn prime?
   {:doc "Returns a number one greater than x"}

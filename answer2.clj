@@ -1,4 +1,4 @@
-(ns answer1b)
+(ns answer2)
 
 (defn get-max-map-value [the-map]
   (def max-value 0)
